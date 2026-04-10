@@ -105,6 +105,10 @@ export default function ShopsPage() {
     }
 
     filtered.sort((a, b) => {
+      if (a.featured !== b.featured) {
+        return a.featured ? -1 : 1;
+      }
+
       if (sortBy === "trust") return Number(b.trust) - Number(a.trust);
       if (sortBy === "stock") return Number(b.stock) - Number(a.stock);
       if (sortBy === "name") return a.name.localeCompare(b.name);
@@ -195,7 +199,11 @@ export default function ShopsPage() {
             return (
               <div
                 key={shop.slug}
-                className="relative rounded-[24px] border border-white/10 bg-white/5 p-5 hover:border-cyan-400/40 hover:bg-white/10"
+                className={`relative rounded-[24px] border p-5 transition hover:bg-white/10 ${
+                  shop.featured
+                    ? "border-amber-400/40 bg-gradient-to-b from-amber-400/10 to-white/5 hover:border-amber-300/60"
+                    : "border-white/10 bg-white/5 hover:border-cyan-400/40"
+                }`}
               >
                 <div className="mb-4 flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -211,11 +219,19 @@ export default function ShopsPage() {
                   </div>
                 </div>
 
-                {badge ? (
-                  <div className="mb-3 inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 ring-1 ring-white/10">
-                    {badge}
-                  </div>
-                ) : null}
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {shop.featured ? (
+                    <span className="inline-block rounded-full bg-amber-400/15 px-3 py-1 text-xs font-medium text-amber-200 ring-1 ring-amber-400/20">
+                      Sponsored
+                    </span>
+                  ) : null}
+
+                  {badge ? (
+                    <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 ring-1 ring-white/10">
+                      {badge}
+                    </span>
+                  ) : null}
+                </div>
 
                 <p className="mt-2 text-sm text-cyan-200">{shop.category}</p>
                 <p className="mt-3 text-sm text-white/65">{shop.note}</p>
@@ -232,12 +248,18 @@ export default function ShopsPage() {
                   </div>
                 </div>
 
-                <Link
-                  href={`/shops/${shop.slug}`}
-                  className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm hover:border-cyan-400 hover:text-cyan-200"
+                <a
+                  href={shop.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`mt-6 inline-block rounded-full border px-4 py-2 text-sm transition ${
+                    shop.featured
+                      ? "border-amber-300/30 hover:border-amber-200 hover:text-amber-100"
+                      : "border-white/15 hover:border-cyan-400 hover:text-cyan-200"
+                  }`}
                 >
-                  View Store
-                </Link>
+                  Visit Store →
+                </a>
               </div>
             );
           })}

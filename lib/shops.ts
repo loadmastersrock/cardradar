@@ -13,6 +13,8 @@ export type Shop = {
   stock: string;
   appeal: string;
   logo: string;
+  url: string;
+  featured: boolean;
 };
 
 export const shops: Record<string, Shop> = {
@@ -32,6 +34,8 @@ export const shops: Record<string, Shop> = {
     stock: "9.1",
     appeal: "8.4",
     logo: "https://www.google.com/s2/favicons?domain=chaoscards.co.uk&sz=128",
+    url: "https://www.chaoscards.co.uk/?ref=cardradar",
+    featured: true,
   },
   "magic-madhouse": {
     slug: "magic-madhouse",
@@ -49,6 +53,8 @@ export const shops: Record<string, Shop> = {
     stock: "9.3",
     appeal: "8.3",
     logo: "https://www.google.com/s2/favicons?domain=magicmadhouse.co.uk&sz=128",
+    url: "https://magicmadhouse.co.uk/?ref=cardradar",
+    featured: true,
   },
   "obsidia-distribution": {
     slug: "obsidia-distribution",
@@ -66,6 +72,8 @@ export const shops: Record<string, Shop> = {
     stock: "8.7",
     appeal: "8.8",
     logo: "https://www.google.com/s2/favicons?domain=obsidiadistribution.co.uk&sz=128",
+    url: "https://obsidiadistribution.co.uk/?ref=cardradar",
+    featured: false,
   },
   "karnage-collectables": {
     slug: "karnage-collectables",
@@ -83,5 +91,7 @@ export const shops: Record<string, Shop> = {
     stock: "8.2",
     appeal: "8.7",
     logo: "https://www.google.com/s2/favicons?domain=karnagecollectables.com&sz=128",
+    url: "https://karnagecollectables.com/?ref=cardradar",
+    featured: false,
   },
 };
