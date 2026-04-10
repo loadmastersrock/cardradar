@@ -43,6 +43,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#050816] text-white">
+      {/* NAVBAR */}
       <section className="border-b border-white/10">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
           <div>
@@ -55,7 +56,7 @@ export default function Home() {
           </div>
 
           <nav className="hidden gap-6 text-sm text-white/70 md:flex">
-            <a href="#" className="transition hover:text-white">
+            <a href="/shops" className="transition hover:text-white">
               Shops
             </a>
             <a href="#" className="transition hover:text-white">
@@ -75,9 +76,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* HERO / RADAR */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.12),transparent_40%)]" />
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[260px_minmax(0,1fr)_300px]">
+          {/* LEFT FILTER */}
           <aside className="space-y-3">
             {[
               "Pokémon",
@@ -97,6 +100,7 @@ export default function Home() {
             ))}
           </aside>
 
+          {/* RADAR */}
           <div className="rounded-[32px] border border-cyan-400/20 bg-white/5 p-6 shadow-2xl shadow-cyan-500/10 backdrop-blur">
             <div className="mb-8 text-center">
               <h2 className="text-4xl font-semibold">
@@ -129,6 +133,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* RIGHT PANEL */}
           <aside className="rounded-[28px] border border-white/10 bg-white/5 p-5 backdrop-blur">
             <h3 className="text-lg font-semibold">Market Insights</h3>
             <div className="mt-5 space-y-4 text-sm">
@@ -153,6 +158,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SHOPS */}
       <section className="mx-auto max-w-7xl px-6 py-8">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-2xl font-semibold">Top Card Shops</h3>
@@ -168,14 +174,19 @@ export default function Home() {
               <h4 className="text-lg font-semibold">{shop.name}</h4>
               <p className="mt-3 text-sm text-cyan-200">{shop.tag}</p>
               <p className="mt-2 text-sm text-white/60">{shop.note}</p>
-              <button className="mt-5 rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200">
+
+              <a
+                href="/shops"
+                className="mt-5 inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
+              >
                 View Store
-              </button>
+              </a>
             </div>
           ))}
         </div>
       </section>
 
+      {/* OPPORTUNITIES */}
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-2xl font-semibold">Opportunities</h3>
@@ -205,6 +216,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-white/50 md:flex-row md:items-center md:justify-between">
           <p>© 2026 CardRadar</p>
