@@ -1,1 +1,2 @@
-# cardradar
+# CardRadar
+Collectible card market tracker
