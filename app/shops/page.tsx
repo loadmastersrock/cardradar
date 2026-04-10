@@ -7,6 +7,7 @@ import { shops } from "@/lib/shops";
 export default function ShopsPage() {
   const [sortBy, setSortBy] = useState("trust");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const shopList = Object.values(shops);
 
@@ -41,6 +42,27 @@ export default function ShopsPage() {
       );
     }
 
+    const query = searchTerm.trim().toLowerCase();
+
+    if (query) {
+      filtered = filtered.filter((shop) => {
+        const searchableText = [
+          shop.name,
+          shop.category,
+          shop.location,
+          shop.note,
+          shop.description,
+          shop.bestFor,
+          shop.region,
+          shop.focus,
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return searchableText.includes(query);
+      });
+    }
+
     filtered.sort((a, b) => {
       if (sortBy === "trust") return Number(b.trust) - Number(a.trust);
       if (sortBy === "stock") return Number(b.stock) - Number(a.stock);
@@ -49,7 +71,7 @@ export default function ShopsPage() {
     });
 
     return filtered;
-  }, [shopList, sortBy, activeFilter]);
+  }, [shopList, sortBy, activeFilter, searchTerm]);
 
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-12 text-white">
@@ -70,6 +92,20 @@ export default function ShopsPage() {
             Browse trusted card shops by speciality, region, and what they are
             best known for.
           </p>
+        </div>
+
+        <div className="mb-8">
+          <h2 className="mb-3 text-sm uppercase tracking-[0.2em] text-white/45">
+            Search
+          </h2>
+
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by shop name, category, focus, or keyword..."
+            className="w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-cyan-400"
+          />
         </div>
 
         <div className="mb-6">
@@ -126,51 +162,71 @@ export default function ShopsPage() {
           </div>
         </div>
 
-        <div className="mb-6 text-sm text-white/50">
-          Showing {filteredAndSortedShops.length} shop
-          {filteredAndSortedShops.length === 1 ? "" : "s"}
-        </div>
+        <div className="mb-6 flex items-center justify-between text-sm text-white/50">
+          <span>
+            Showing {filteredAndSortedShops.length} shop
+            {filteredAndSortedShops.length === 1 ? "" : "s"}
+          </span>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {filteredAndSortedShops.map((shop) => (
-            <div
-              key={shop.slug}
-              className="rounded-[24px] border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/10"
+          {searchTerm ? (
+            <button
+              onClick={() => setSearchTerm("")}
+              className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70 transition hover:border-cyan-400 hover:text-white"
             >
-              <p className="text-xs uppercase tracking-[0.25em] text-cyan-300">
-                {shop.location}
-              </p>
-              <h2 className="mt-3 text-xl font-semibold">{shop.name}</h2>
-              <p className="mt-3 text-sm text-cyan-200">{shop.category}</p>
-              <p className="mt-3 text-sm leading-6 text-white/65">
-                {shop.note}
-              </p>
-
-              <div className="mt-5 space-y-2 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-white/50">Trust</span>
-                  <span className="font-medium text-cyan-200">
-                    {shop.trust} / 10
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-white/50">Stock</span>
-                  <span className="font-medium text-cyan-200">
-                    {shop.stock} / 10
-                  </span>
-                </div>
-              </div>
-
-              <Link
-                href={`/shops/${shop.slug}`}
-                className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
-              >
-                View Store
-              </Link>
-            </div>
-          ))}
+              Clear search
+            </button>
+          ) : null}
         </div>
+
+        {filteredAndSortedShops.length === 0 ? (
+          <div className="rounded-[24px] border border-white/10 bg-white/5 p-8 text-center">
+            <h2 className="text-2xl font-semibold">No shops found</h2>
+            <p className="mt-3 text-sm text-white/60">
+              Try a different search term or reset your filters.
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {filteredAndSortedShops.map((shop) => (
+              <div
+                key={shop.slug}
+                className="rounded-[24px] border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/10"
+              >
+                <p className="text-xs uppercase tracking-[0.25em] text-cyan-300">
+                  {shop.location}
+                </p>
+                <h2 className="mt-3 text-xl font-semibold">{shop.name}</h2>
+                <p className="mt-3 text-sm text-cyan-200">{shop.category}</p>
+                <p className="mt-3 text-sm leading-6 text-white/65">
+                  {shop.note}
+                </p>
+
+                <div className="mt-5 space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/50">Trust</span>
+                    <span className="font-medium text-cyan-200">
+                      {shop.trust} / 10
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/50">Stock</span>
+                    <span className="font-medium text-cyan-200">
+                      {shop.stock} / 10
+                    </span>
+                  </div>
+                </div>
+
+                <Link
+                  href={`/shops/${shop.slug}`}
+                  className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
+                >
+                  View Store
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );
