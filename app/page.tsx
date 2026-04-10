@@ -19,9 +19,12 @@ function ShopInitials({ name }: { name: string }) {
 export default function Home() {
   const shopList = Object.values(shops);
 
-  const featuredShops = [...shopList]
-    .sort((a, b) => Number(b.trust) - Number(a.trust))
-    .slice(0, 4);
+  const featuredPinned = shopList.filter((shop) => shop.featured);
+  const nonFeatured = [...shopList]
+    .filter((shop) => !shop.featured)
+    .sort((a, b) => Number(b.trust) - Number(a.trust));
+
+  const homepageShops = [...featuredPinned, ...nonFeatured].slice(0, 4);
 
   const bestTrust = [...shopList].sort(
     (a, b) => Number(b.trust) - Number(a.trust)
@@ -31,32 +34,13 @@ export default function Home() {
     (a, b) => Number(b.stock) - Number(a.stock)
   )[0];
 
-  const featured = shopList.find((s) => s.featured) || shopList[0];
+  const topTrend = featuredPinned[0] || bestTrust;
 
   const movers = [
     { name: "Pokémon 151 JP", change: "+12.4%", status: "Rising fast" },
     { name: "One Piece OP-05", change: "+8.1%", status: "Heat building" },
     { name: "Evolving Skies ETB", change: "-3.2%", status: "Cooling off" },
     { name: "Lorcana Enchanted", change: "+5.7%", status: "Watch closely" },
-  ];
-
-  const opportunities = [
-    {
-      title: "Undervalued Right Now",
-      product: "Pokémon 151 Japanese Booster Box",
-      description:
-        "Strong nostalgia, steady demand, and broad collector appeal.",
-    },
-    {
-      title: "Heat Building",
-      product: "One Piece OP-05",
-      description: "Momentum is building as sealed interest keeps rising.",
-    },
-    {
-      title: "Cooling Off",
-      product: "Crown Zenith ETB",
-      description: "Still popular, but pricing may be running ahead of demand.",
-    },
   ];
 
   return (
@@ -76,12 +60,6 @@ export default function Home() {
             <Link href="/shops" className="transition hover:text-white">
               Shops
             </Link>
-            <Link
-              href="/best-pokemon-card-shops-uk"
-              className="transition hover:text-white"
-            >
-              Best UK Shops
-            </Link>
             <Link href="/advertise" className="transition hover:text-white">
               Advertise
             </Link>
@@ -96,9 +74,9 @@ export default function Home() {
             </Link>
             <Link
               href="/advertise"
-              className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-200 transition hover:bg-cyan-400/20"
+              className="rounded-full border border-amber-400/40 bg-amber-400/10 px-4 py-2 text-sm font-medium text-amber-200 transition hover:bg-amber-400/20"
             >
-              List Your Store
+              Get Featured
             </Link>
           </div>
         </div>
@@ -127,26 +105,20 @@ export default function Home() {
 
             <div className="mt-6 rounded-[28px] border border-white/10 bg-white/5 p-5 backdrop-blur">
               <p className="text-xs uppercase tracking-[0.2em] text-white/45">
-                Quick Links
+                Revenue Ready
               </p>
               <div className="mt-4 space-y-3">
+                <Link
+                  href="/advertise"
+                  className="block rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100 transition hover:border-amber-300/40"
+                >
+                  Featured placement for shops
+                </Link>
                 <Link
                   href="/shops"
                   className="block rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80 transition hover:border-cyan-400/30 hover:text-cyan-200"
                 >
-                  Explore ranked shops
-                </Link>
-                <Link
-                  href="/best-pokemon-card-shops-uk"
-                  className="block rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80 transition hover:border-cyan-400/30 hover:text-cyan-200"
-                >
-                  View best UK shops
-                </Link>
-                <Link
-                  href="/advertise"
-                  className="block rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80 transition hover:border-cyan-400/30 hover:text-cyan-200"
-                >
-                  Advertise on CardRadar
+                  Explore ranked directory
                 </Link>
               </div>
             </div>
@@ -155,11 +127,11 @@ export default function Home() {
           <div className="rounded-[32px] border border-cyan-400/20 bg-white/5 p-6 shadow-2xl shadow-cyan-500/10 backdrop-blur">
             <div className="mb-8 text-center">
               <h2 className="text-4xl font-semibold">
-                The smarter way to track what is moving
+                Discover what is moving before everyone else
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-white/65">
-                Compare shops, spot momentum, and discover which products are
-                getting hotter before everyone else piles in.
+                Compare trusted card shops, follow momentum, and spot the places
+                collectors are most likely to buy from next.
               </p>
 
               <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -170,10 +142,10 @@ export default function Home() {
                   Explore Shops
                 </Link>
                 <Link
-                  href="/best-pokemon-card-shops-uk"
-                  className="rounded-full border border-white/20 px-5 py-3 text-sm text-white/80 transition hover:border-cyan-400 hover:text-cyan-200"
+                  href="/advertise"
+                  className="rounded-full border border-amber-400/30 bg-amber-400/10 px-5 py-3 text-sm text-amber-100 transition hover:border-amber-300"
                 >
-                  Best UK Shops
+                  Feature Your Store
                 </Link>
               </div>
             </div>
@@ -235,7 +207,7 @@ export default function Home() {
               <div className="mt-4 space-y-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-white/55">Top Trend</span>
-                  <span className="text-cyan-200">{featured.name}</span>
+                  <span className="text-cyan-200">{topTrend.name}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-white/55">Best Shop by Trust</span>
@@ -263,20 +235,43 @@ export default function Home() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {featuredShops.map((shop) => (
+          {homepageShops.map((shop, index) => (
             <div
               key={shop.slug}
-              className="rounded-[24px] border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/10"
+              className={`rounded-[24px] border p-5 transition ${
+                shop.featured
+                  ? "border-amber-400/30 bg-gradient-to-b from-amber-400/10 to-white/5 hover:border-amber-300/50"
+                  : "border-white/10 bg-white/5 hover:border-cyan-400/40 hover:bg-white/10"
+              }`}
             >
-              <div className="flex items-center gap-3">
-                <ShopInitials name={shop.name} />
-                <div>
-                  <p className="text-xs text-cyan-300">{shop.location}</p>
-                  <h4 className="text-lg font-semibold">{shop.name}</h4>
+              <div className="mb-3 flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <ShopInitials name={shop.name} />
+                  <div>
+                    <p className="text-xs text-cyan-300">{shop.location}</p>
+                    <h4 className="text-lg font-semibold">{shop.name}</h4>
+                  </div>
+                </div>
+
+                <div className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-200">
+                  #{index + 1}
                 </div>
               </div>
 
-              <p className="mt-3 text-sm text-cyan-200">{shop.category}</p>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {shop.featured ? (
+                  <span className="inline-block rounded-full bg-amber-400/15 px-3 py-1 text-xs font-medium text-amber-200 ring-1 ring-amber-400/20">
+                    Sponsored
+                  </span>
+                ) : null}
+                {!shop.featured ? (
+                  <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 ring-1 ring-white/10">
+                    #{index + 1} Trust
+                  </span>
+                ) : null}
+              </div>
+
+              <p className="mt-2 text-sm text-cyan-200">{shop.category}</p>
               <p className="mt-2 text-sm text-white/60">{shop.note}</p>
 
               <div className="mt-5 space-y-2 text-sm">
@@ -290,12 +285,26 @@ export default function Home() {
                 </div>
               </div>
 
-              <Link
-                href={`/shops/${shop.slug}`}
-                className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
-              >
-                View Store
-              </Link>
+              <div className="mt-6 flex gap-3">
+                <Link
+                  href={`/shops/${shop.slug}`}
+                  className="inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
+                >
+                  View Store
+                </Link>
+                <a
+                  href={shop.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-block rounded-full border px-4 py-2 text-sm transition ${
+                    shop.featured
+                      ? "border-amber-300/30 hover:border-amber-200 hover:text-amber-100"
+                      : "border-white/15 hover:border-cyan-400 hover:text-cyan-200"
+                  }`}
+                >
+                  Visit →
+                </a>
+              </div>
             </div>
           ))}
         </div>
@@ -303,31 +312,57 @@ export default function Home() {
 
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-6 flex items-center justify-between">
-          <h3 className="text-2xl font-semibold">Radar Opportunities</h3>
-          <p className="text-sm text-white/50">Where attention may be building</p>
+          <h3 className="text-2xl font-semibold">Money Mode</h3>
+          <p className="text-sm text-white/50">
+            Featured visibility that shops can pay for
+          </p>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-3">
-          {opportunities.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[28px] border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6"
+          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+            <p className="text-sm uppercase tracking-[0.2em] text-white/45">
+              Sponsored Placement
+            </p>
+            <h4 className="mt-4 text-2xl font-semibold">
+              Pin stores above the rankings
+            </h4>
+            <p className="mt-3 text-sm leading-6 text-white/65">
+              Featured shops stay visible first and get stronger attention from
+              buyers.
+            </p>
+          </div>
+
+          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+            <p className="text-sm uppercase tracking-[0.2em] text-white/45">
+              Trust + Traffic
+            </p>
+            <h4 className="mt-4 text-2xl font-semibold">
+              Better exposure with clearer authority
+            </h4>
+            <p className="mt-3 text-sm leading-6 text-white/65">
+              Ranked pages plus sponsorship make your premium positions look more
+              valuable.
+            </p>
+          </div>
+
+          <div className="rounded-[28px] border border-amber-400/30 bg-amber-400/10 p-6">
+            <p className="text-sm uppercase tracking-[0.2em] text-amber-200">
+              Start Monetising
+            </p>
+            <h4 className="mt-4 text-2xl font-semibold">
+              Sell featured spots to card shops
+            </h4>
+            <p className="mt-3 text-sm leading-6 text-white/75">
+              Use the advertise page to sell premium placement and homepage
+              visibility.
+            </p>
+            <Link
+              href="/advertise"
+              className="mt-6 inline-block rounded-full bg-white px-4 py-2 text-sm font-medium text-black transition hover:opacity-90"
             >
-              <p className="text-sm uppercase tracking-[0.2em] text-white/45">
-                {item.title}
-              </p>
-              <h4 className="mt-4 text-2xl font-semibold">{item.product}</h4>
-              <p className="mt-3 text-sm leading-6 text-white/65">
-                {item.description}
-              </p>
-              <Link
-                href="/shops"
-                className="mt-6 inline-block rounded-full bg-white px-4 py-2 text-sm font-medium text-black transition hover:opacity-90"
-              >
-                Explore Shops
-              </Link>
-            </div>
-          ))}
+              View Pricing
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -342,9 +377,9 @@ export default function Home() {
           <div className="mt-6 flex justify-center gap-4">
             <Link
               href="/advertise"
-              className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-medium text-black transition hover:bg-cyan-300"
+              className="rounded-full bg-amber-400 px-6 py-3 text-sm font-medium text-black transition hover:bg-amber-300"
             >
-              Advertise with us
+              Get Featured
             </Link>
             <Link
               href="/shops"
