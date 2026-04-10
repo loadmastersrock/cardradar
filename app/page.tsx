@@ -18,7 +18,10 @@ function ShopInitials({ name }: { name: string }) {
 
 export default function Home() {
   const shopList = Object.values(shops);
-  const featuredShops = shopList.slice(0, 4);
+
+  const featuredShops = [...shopList]
+    .sort((a, b) => Number(b.trust) - Number(a.trust))
+    .slice(0, 4);
 
   const bestTrust = [...shopList].sort(
     (a, b) => Number(b.trust) - Number(a.trust)
