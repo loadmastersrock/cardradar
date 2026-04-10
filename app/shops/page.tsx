@@ -1,45 +1,19 @@
-const shops = [
-  {
-    name: "Obsidia Distribution",
-    category: "Japanese sealed",
-    location: "UK",
-    note: "Strong for Japanese booster boxes and harder-to-find sealed products.",
-    href: "#",
-  },
-  {
-    name: "Chaos Cards",
-    category: "Mainstream sealed",
-    location: "UK",
-    note: "Well-known card retailer with broad Pokémon and TCG coverage.",
-    href: "/shops/chaos-cards",
-  },
-  {
-    name: "Magic Madhouse",
-    category: "Broad TCG range",
-    location: "UK",
-    note: "Strong selection across Pokémon, Yu-Gi-Oh, Magic, and accessories.",
-    href: "/shops/magic-madhouse",
-  },
-  {
-    name: "Karnage Collectables",
-    category: "Collector picks",
-    location: "UK",
-    note: "More collector-focused stock with quick-moving items.",
-    href: "#",
-  },
-];
+import Link from "next/link";
+import { shops } from "@/lib/shops";
 
 export default function ShopsPage() {
+  const shopList = Object.values(shops);
+
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-12 text-white">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10">
-          <a
+          <Link
             href="/"
             className="text-sm text-cyan-300 transition hover:text-cyan-200"
           >
             ← Back to Home
-          </a>
+          </Link>
 
           <p className="mt-6 text-sm uppercase tracking-[0.25em] text-cyan-300">
             CardRadar Directory
@@ -63,9 +37,9 @@ export default function ShopsPage() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {shops.map((shop) => (
+          {shopList.map((shop) => (
             <div
-              key={shop.name}
+              key={shop.slug}
               className="rounded-[24px] border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/10"
             >
               <p className="text-xs uppercase tracking-[0.25em] text-cyan-300">
@@ -76,12 +50,20 @@ export default function ShopsPage() {
               <p className="mt-3 text-sm leading-6 text-white/65">
                 {shop.note}
               </p>
-              <a
-                href={shop.href}
+
+              <div className="mt-5 flex items-center justify-between text-sm">
+                <span className="text-white/50">Trust</span>
+                <span className="font-medium text-cyan-200">
+                  {shop.trust} / 10
+                </span>
+              </div>
+
+              <Link
+                href={`/shops/${shop.slug}`}
                 className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
               >
                 View Store
-              </a>
+              </Link>
             </div>
           ))}
         </div>

@@ -1,32 +1,8 @@
 import Link from "next/link";
+import { shops } from "@/lib/shops";
 
 export default function Home() {
-  const shops = [
-    {
-      name: "Obsidia Distribution",
-      tag: "Best for Japanese sealed",
-      note: "Trusted UK seller",
-      href: "/shops",
-    },
-    {
-      name: "Chaos Cards",
-      tag: "Popular sealed stock",
-      note: "Strong Pokémon range",
-      href: "/shops/chaos-cards",
-    },
-    {
-      name: "Magic Madhouse",
-      tag: "Broad card coverage",
-      note: "Good for mainstream sets",
-      href: "/shops/magic-madhouse",
-    },
-    {
-      name: "Karnage Collectables",
-      tag: "Collector-focused picks",
-      note: "Fast-moving products",
-      href: "/shops",
-    },
-  ];
+  const featuredShops = Object.values(shops).slice(0, 4);
 
   const opportunities = [
     {
@@ -166,17 +142,17 @@ export default function Home() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {shops.map((shop) => (
+          {featuredShops.map((shop) => (
             <div
-              key={shop.name}
+              key={shop.slug}
               className="rounded-[24px] border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/10"
             >
               <h4 className="text-lg font-semibold">{shop.name}</h4>
-              <p className="mt-3 text-sm text-cyan-200">{shop.tag}</p>
+              <p className="mt-3 text-sm text-cyan-200">{shop.category}</p>
               <p className="mt-2 text-sm text-white/60">{shop.note}</p>
 
               <Link
-                href={shop.href}
+                href={`/shops/${shop.slug}`}
                 className="mt-5 inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-cyan-400/40 hover:text-cyan-200"
               >
                 View Store
