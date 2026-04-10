@@ -12,6 +12,7 @@ export type Shop = {
   pricing: string;
   stock: string;
   appeal: string;
+  logo: string;
 };
 
 export const shops: Record<string, Shop> = {
@@ -30,6 +31,7 @@ export const shops: Record<string, Shop> = {
     pricing: "8.2",
     stock: "9.1",
     appeal: "8.4",
+    logo: "https://www.google.com/s2/favicons?domain=chaoscards.co.uk&sz=128",
   },
   "magic-madhouse": {
     slug: "magic-madhouse",
@@ -46,6 +48,7 @@ export const shops: Record<string, Shop> = {
     pricing: "8.1",
     stock: "9.3",
     appeal: "8.3",
+    logo: "https://www.google.com/s2/favicons?domain=magicmadhouse.co.uk&sz=128",
   },
   "obsidia-distribution": {
     slug: "obsidia-distribution",
@@ -62,6 +65,7 @@ export const shops: Record<string, Shop> = {
     pricing: "8.0",
     stock: "8.7",
     appeal: "8.8",
+    logo: "https://www.google.com/s2/favicons?domain=obsidiadistribution.co.uk&sz=128",
   },
   "karnage-collectables": {
     slug: "karnage-collectables",
@@ -78,5 +82,6 @@ export const shops: Record<string, Shop> = {
     pricing: "8.0",
     stock: "8.2",
     appeal: "8.7",
+    logo: "https://www.google.com/s2/favicons?domain=karnagecollectables.com&sz=128",
   },
 };
