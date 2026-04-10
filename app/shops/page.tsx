@@ -38,6 +38,13 @@ function ShopLogo({
   );
 }
 
+function getBadge(index: number) {
+  if (index === 0) return "Top Ranked";
+  if (index === 1) return "Strong Pick";
+  if (index === 2) return "Watchlist";
+  return null;
+}
+
 export default function ShopsPage() {
   const [sortBy, setSortBy] = useState("trust");
   const [activeFilter, setActiveFilter] = useState("all");
@@ -182,42 +189,58 @@ export default function ShopsPage() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {filteredAndSortedShops.map((shop) => (
-            <div
-              key={shop.slug}
-              className="rounded-[24px] border border-white/10 bg-white/5 p-5 hover:border-cyan-400/40 hover:bg-white/10"
-            >
-              <div className="flex items-center gap-3">
-                <ShopLogo logo={shop.logo} name={shop.name} />
-                <div>
-                  <p className="text-xs text-cyan-300">{shop.location}</p>
-                  <h2 className="text-lg font-semibold">{shop.name}</h2>
-                </div>
-              </div>
+          {filteredAndSortedShops.map((shop, index) => {
+            const badge = getBadge(index);
 
-              <p className="mt-3 text-sm text-cyan-200">{shop.category}</p>
-              <p className="mt-3 text-sm text-white/65">{shop.note}</p>
-
-              <div className="mt-5 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-white/50">Trust</span>
-                  <span className="text-cyan-200">{shop.trust}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-white/50">Stock</span>
-                  <span className="text-cyan-200">{shop.stock}</span>
-                </div>
-              </div>
-
-              <Link
-                href={`/shops/${shop.slug}`}
-                className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm hover:border-cyan-400 hover:text-cyan-200"
+            return (
+              <div
+                key={shop.slug}
+                className="relative rounded-[24px] border border-white/10 bg-white/5 p-5 hover:border-cyan-400/40 hover:bg-white/10"
               >
-                View Store
-              </Link>
-            </div>
-          ))}
+                <div className="mb-4 flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <ShopLogo logo={shop.logo} name={shop.name} />
+                    <div>
+                      <p className="text-xs text-cyan-300">{shop.location}</p>
+                      <h2 className="text-lg font-semibold">{shop.name}</h2>
+                    </div>
+                  </div>
+
+                  <div className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-200">
+                    #{index + 1}
+                  </div>
+                </div>
+
+                {badge ? (
+                  <div className="mb-3 inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 ring-1 ring-white/10">
+                    {badge}
+                  </div>
+                ) : null}
+
+                <p className="mt-2 text-sm text-cyan-200">{shop.category}</p>
+                <p className="mt-3 text-sm text-white/65">{shop.note}</p>
+
+                <div className="mt-5 space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-white/50">Trust</span>
+                    <span className="text-cyan-200">{shop.trust}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="text-white/50">Stock</span>
+                    <span className="text-cyan-200">{shop.stock}</span>
+                  </div>
+                </div>
+
+                <Link
+                  href={`/shops/${shop.slug}`}
+                  className="mt-6 inline-block rounded-full border border-white/15 px-4 py-2 text-sm hover:border-cyan-400 hover:text-cyan-200"
+                >
+                  View Store
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </main>
