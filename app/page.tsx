@@ -18,7 +18,7 @@ export default function Home() {
       name: "Magic Madhouse",
       tag: "Broad card coverage",
       note: "Good for mainstream sets",
-      href: "/shops",
+      href: "/shops/magic-madhouse",
     },
     {
       name: "Karnage Collectables",

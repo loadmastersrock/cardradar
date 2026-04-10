@@ -18,7 +18,7 @@ const shops = [
     category: "Broad TCG range",
     location: "UK",
     note: "Strong selection across Pokémon, Yu-Gi-Oh, Magic, and accessories.",
-    href: "#",
+    href: "/shops/magic-madhouse",
   },
   {
     name: "Karnage Collectables",
