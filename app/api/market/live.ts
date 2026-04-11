@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { searchEbay } from "@/lib/ebay";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -39,7 +39,7 @@ function normalise(text: string) {
   return text.toLowerCase().replace(/\s+/g, " ").trim();
 }
 
-function calcChange(current: number, past: number) {
+function calcChange(current: number, past: number | null) {
   if (!past || past === 0) return 0;
   return Number((((current - past) / past) * 100).toFixed(2));
 }
@@ -58,7 +58,10 @@ async function getPastPrice(slug: string, hoursAgo: number) {
   return data?.[0]?.price ?? null;
 }
 
-export async function GET() {
+export default async function handler(
+  _req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const products: ProductConfig[] = [
       {
@@ -137,7 +140,6 @@ export async function GET() {
           const confidence =
             listingCount >= p.minListingsForConfidence ? "high" : "low";
 
-          // 🔥 GET HISTORICAL PRICES
           const price24h = await getPastPrice(p.slug, 24);
           const price7d = await getPastPrice(p.slug, 24 * 7);
           const price30d = await getPastPrice(p.slug, 24 * 30);
@@ -186,13 +188,13 @@ export async function GET() {
       })
     );
 
-    return NextResponse.json(results);
+    return res.status(200).json(results);
   } catch (err) {
     console.error("API crash:", err);
 
-    return NextResponse.json(
-      { error: "API failed", details: String(err) },
-      { status: 200 }
-    );
+    return res.status(200).json({
+      error: "API failed",
+      details: String(err),
+    });
   }
 }
