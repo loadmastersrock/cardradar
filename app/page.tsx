@@ -10,11 +10,50 @@ function ShopInitials({ name }: { name: string }) {
     .toUpperCase();
 
   return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-400/15 text-xs font-semibold tracking-wide text-cyan-200 ring-1 ring-cyan-400/25">
+    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-400/15 text-xs font-semibold text-cyan-200 ring-1 ring-cyan-400/25">
       {initials}
     </div>
   );
 }
+
+const radarItems = [
+  {
+    slug: "pokemon-151",
+    label: "Pokémon 151 JP",
+    change: "+12%",
+    status: "Rising fast",
+    className:
+      "absolute left-[16%] top-[26%] rounded-2xl bg-green-500/20 px-4 py-2 text-sm text-green-200 ring-1 ring-green-400/30 transition hover:scale-105",
+    changeClass: "text-green-300",
+  },
+  {
+    slug: "evolving-skies",
+    label: "Evolving Skies ETB",
+    change: "-3%",
+    status: "Cooling off",
+    className:
+      "absolute right-[14%] top-[34%] rounded-2xl bg-red-500/20 px-4 py-2 text-sm text-red-200 ring-1 ring-red-400/30 transition hover:scale-105",
+    changeClass: "text-red-300",
+  },
+  {
+    slug: "one-piece",
+    label: "One Piece OP-05",
+    change: "+8%",
+    status: "Heat building",
+    className:
+      "absolute bottom-[20%] left-[24%] rounded-2xl bg-amber-500/20 px-4 py-2 text-sm text-amber-200 ring-1 ring-amber-400/30 transition hover:scale-105",
+    changeClass: "text-green-300",
+  },
+  {
+    slug: "lorcana",
+    label: "Lorcana Enchanted",
+    change: "+5%",
+    status: "Watch closely",
+    className:
+      "absolute bottom-[24%] right-[18%] rounded-2xl bg-blue-500/20 px-4 py-2 text-sm text-blue-200 ring-1 ring-blue-400/30 transition hover:scale-105",
+    changeClass: "text-green-300",
+  },
+];
 
 export default function Home() {
   const shopList = Object.values(shops);
@@ -35,13 +74,6 @@ export default function Home() {
   )[0];
 
   const topTrend = featuredPinned[0] || bestTrust;
-
-  const movers = [
-    { name: "Pokémon 151 JP", change: "+12.4%", status: "Rising fast" },
-    { name: "One Piece OP-05", change: "+8.1%", status: "Heat building" },
-    { name: "Evolving Skies ETB", change: "-3.2%", status: "Cooling off" },
-    { name: "Lorcana Enchanted", change: "+5.7%", status: "Watch closely" },
-  ];
 
   return (
     <main className="min-h-screen bg-[#050816] text-white">
@@ -84,6 +116,7 @@ export default function Home() {
 
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.12),transparent_40%)]" />
+
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[240px_minmax(0,1fr)_320px]">
           <aside className="space-y-3">
             {[
@@ -102,26 +135,6 @@ export default function Home() {
                 {item}
               </div>
             ))}
-
-            <div className="mt-6 rounded-[28px] border border-white/10 bg-white/5 p-5 backdrop-blur">
-              <p className="text-xs uppercase tracking-[0.2em] text-white/45">
-                Revenue Ready
-              </p>
-              <div className="mt-4 space-y-3">
-                <Link
-                  href="/advertise"
-                  className="block rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100 transition hover:border-amber-300/40"
-                >
-                  Featured placement for shops
-                </Link>
-                <Link
-                  href="/shops"
-                  className="block rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80 transition hover:border-cyan-400/30 hover:text-cyan-200"
-                >
-                  Explore ranked directory
-                </Link>
-              </div>
-            </div>
           </aside>
 
           <div className="rounded-[32px] border border-cyan-400/20 bg-white/5 p-6 shadow-2xl shadow-cyan-500/10 backdrop-blur">
@@ -156,21 +169,15 @@ export default function Home() {
               <div className="absolute h-[44%] w-[44%] rounded-full border border-cyan-200/10" />
               <div className="absolute h-2 w-2 rounded-full bg-cyan-300" />
 
-              <div className="absolute left-[16%] top-[26%] rounded-2xl bg-green-500/20 px-4 py-2 text-sm text-green-200 ring-1 ring-green-400/30">
-                Pokémon 151 JP +12%
-              </div>
-
-              <div className="absolute right-[14%] top-[34%] rounded-2xl bg-red-500/20 px-4 py-2 text-sm text-red-200 ring-1 ring-red-400/30">
-                Evolving Skies ETB -3%
-              </div>
-
-              <div className="absolute bottom-[20%] left-[24%] rounded-2xl bg-amber-500/20 px-4 py-2 text-sm text-amber-200 ring-1 ring-amber-400/30">
-                One Piece OP-05 +8%
-              </div>
-
-              <div className="absolute bottom-[24%] right-[18%] rounded-2xl bg-blue-500/20 px-4 py-2 text-sm text-blue-200 ring-1 ring-blue-400/30">
-                Lorcana Enchanted +5%
-              </div>
+              {radarItems.map((item) => (
+                <a
+                  key={item.slug}
+                  href={`/go/${item.slug}?from=radar`}
+                  className={item.className}
+                >
+                  {item.label} {item.change}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -178,20 +185,14 @@ export default function Home() {
             <h3 className="text-lg font-semibold">What’s Moving</h3>
 
             <div className="mt-5 space-y-4 text-sm">
-              {movers.map((item) => (
+              {radarItems.map((item) => (
                 <div
-                  key={item.name}
+                  key={item.slug}
                   className="rounded-2xl border border-white/10 bg-black/20 p-4"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-medium">{item.name}</p>
-                    <p
-                      className={`font-medium ${
-                        item.change.startsWith("-")
-                          ? "text-red-300"
-                          : "text-green-300"
-                      }`}
-                    >
+                    <p className="font-medium">{item.label}</p>
+                    <p className={`font-medium ${item.changeClass}`}>
                       {item.change}
                     </p>
                   </div>
@@ -264,11 +265,6 @@ export default function Home() {
                     Sponsored
                   </span>
                 ) : null}
-                {!shop.featured ? (
-                  <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 ring-1 ring-white/10">
-                    #{index + 1} Trust
-                  </span>
-                ) : null}
               </div>
 
               <p className="mt-2 text-sm text-cyan-200">{shop.category}</p>
@@ -293,9 +289,7 @@ export default function Home() {
                   View Store
                 </Link>
                 <a
-                  href={shop.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/go/${shop.slug}?from=home`}
                   className={`inline-block rounded-full border px-4 py-2 text-sm transition ${
                     shop.featured
                       ? "border-amber-300/30 hover:border-amber-200 hover:text-amber-100"
@@ -307,87 +301,6 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="mb-6 flex items-center justify-between">
-          <h3 className="text-2xl font-semibold">Money Mode</h3>
-          <p className="text-sm text-white/50">
-            Featured visibility that shops can pay for
-          </p>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-3">
-          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/45">
-              Sponsored Placement
-            </p>
-            <h4 className="mt-4 text-2xl font-semibold">
-              Pin stores above the rankings
-            </h4>
-            <p className="mt-3 text-sm leading-6 text-white/65">
-              Featured shops stay visible first and get stronger attention from
-              buyers.
-            </p>
-          </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/45">
-              Trust + Traffic
-            </p>
-            <h4 className="mt-4 text-2xl font-semibold">
-              Better exposure with clearer authority
-            </h4>
-            <p className="mt-3 text-sm leading-6 text-white/65">
-              Ranked pages plus sponsorship make your premium positions look more
-              valuable.
-            </p>
-          </div>
-
-          <div className="rounded-[28px] border border-amber-400/30 bg-amber-400/10 p-6">
-            <p className="text-sm uppercase tracking-[0.2em] text-amber-200">
-              Start Monetising
-            </p>
-            <h4 className="mt-4 text-2xl font-semibold">
-              Sell featured spots to card shops
-            </h4>
-            <p className="mt-3 text-sm leading-6 text-white/75">
-              Use the advertise page to sell premium placement and homepage
-              visibility.
-            </p>
-            <Link
-              href="/advertise"
-              className="mt-6 inline-block rounded-full bg-white px-4 py-2 text-sm font-medium text-black transition hover:opacity-90"
-            >
-              View Pricing
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 pb-16 pt-4">
-        <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 text-center">
-          <h3 className="text-3xl font-semibold">Own a card shop?</h3>
-          <p className="mx-auto mt-3 max-w-2xl text-white/65">
-            Get featured placement, more visibility, and direct buyer traffic by
-            listing your store on CardRadar.
-          </p>
-
-          <div className="mt-6 flex justify-center gap-4">
-            <Link
-              href="/advertise"
-              className="rounded-full bg-amber-400 px-6 py-3 text-sm font-medium text-black transition hover:bg-amber-300"
-            >
-              Get Featured
-            </Link>
-            <Link
-              href="/shops"
-              className="rounded-full border border-white/20 px-6 py-3 text-sm text-white/80 transition hover:border-cyan-400 hover:text-cyan-200"
-            >
-              View Directory
-            </Link>
-          </div>
         </div>
       </section>
     </main>
