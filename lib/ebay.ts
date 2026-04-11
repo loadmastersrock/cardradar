@@ -11,6 +11,11 @@ function getRequiredEnv(name: string): string {
   return value;
 }
 
+type EbayTokenResponse = {
+  access_token: string;
+  expires_in: number;
+};
+
 export async function getEbayToken(): Promise<string> {
   const now = Date.now();
 
@@ -39,7 +44,7 @@ export async function getEbayToken(): Promise<string> {
     throw new Error(`Failed to get eBay token: ${response.status} ${text}`);
   }
 
-  const data = JSON.parse(text);
+  const data = JSON.parse(text) as EbayTokenResponse;
 
   if (!data.access_token || !data.expires_in) {
     throw new Error("eBay token response did not include access_token/expires_in");
@@ -48,7 +53,7 @@ export async function getEbayToken(): Promise<string> {
   accessToken = data.access_token;
   tokenExpiry = now + data.expires_in * 1000 - 60_000;
 
-  return accessToken;
+  return data.access_token;
 }
 
 export async function searchEbay(query: string) {
@@ -73,7 +78,7 @@ export async function searchEbay(query: string) {
     throw new Error(`Failed to search eBay: ${response.status} ${text}`);
   }
 
-  const data = JSON.parse(text);
+  const data = JSON.parse(text) as { itemSummaries?: unknown[] };
 
   return data.itemSummaries || [];
 }
